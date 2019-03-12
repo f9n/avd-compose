@@ -1,0 +1,20 @@
+version: 1
+
+platforms:
+  - name: My_Nexus_5
+    avd:
+      package: "system-images;android-27;google_apis_playstore;x86"
+      device: Nexus 5
+    emulator:
+
+  - name: My_Nexus_One
+    avd:
+      package: "system-images;android-27;google_apis_playstore;x86"
+      device: Nexus One
+    emulator:
+
+  - name: My_Nexus_9
+    avd:
+      package: "system-images;android-27;google_apis_playstore;x86"
+      device: Nexus 9
+    emulator:
