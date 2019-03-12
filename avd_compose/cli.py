@@ -44,11 +44,14 @@ def create(ctx, name):
     """ creates android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
     for platform in get_platforms_by_name(platforms, name):
-        Avd.create(
+        output, return_code = Avd.create(
             name=platform["name"],
             package=platform["avd"]["package"],
             device=platform["avd"]["device"],
         )
+        if ctx.obj["debug"]:
+            click.echo(output)
+            click.echo(return_code)
 
 
 @main.command()
@@ -77,7 +80,10 @@ def destroy(ctx, name):
     """ deletes all the android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
     for platform in get_platforms_by_name(platforms, name):
-        Avd.delete(name=platform["name"])
+        output, return_code = Avd.delete(name=platform["name"])
+        if ctx.obj["debug"]:
+            click.echo(output)
+            click.echo(return_code)
 
 
 if __name__ == "__main__":
