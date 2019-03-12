@@ -4,8 +4,17 @@ import click
 
 from . import __version__
 from .parser import parse_configuration_file
+from .androidstudio.avdmanager import Avd
 
 DEFAULT_CONFIG_FILE = os.getenv("AVD_COMPOSE_CONFIG_FILE", "avd-compose.yml")
+
+
+def get_platforms_by_name(platforms, name=None):
+    for platform in platforms:
+        if name and not platform["name"] == name:
+            continue
+
+        yield platform
 
 
 @click.group()
@@ -33,7 +42,13 @@ def version(ctx):
 )
 def create(ctx, name):
     """ creates android virtual devices """
-    pass
+    platforms = ctx.obj["configs"]["platforms"]
+    for platform in get_platforms_by_name(platforms, name):
+        Avd.create(
+            name=platform["name"],
+            package=platform["avd"]["package"],
+            device=platform["avd"]["device"],
+        )
 
 
 @main.command()
@@ -60,7 +75,9 @@ def status(ctx):
 )
 def destroy(ctx, name):
     """ deletes all the android virtual devices """
-    pass
+    platforms = ctx.obj["configs"]["platforms"]
+    for platform in get_platforms_by_name(platforms, name):
+        Avd.delete(name=platform["name"])
 
 
 if __name__ == "__main__":
