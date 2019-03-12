@@ -2,6 +2,7 @@ import os
 
 import click
 
+from .parser import parse_configuration_file
 
 DEFAULT_CONFIG_FILE = os.getenv("AVD_COMPOSE_CONFIG_FILE", "avd-compose.yml")
 
@@ -13,8 +14,8 @@ DEFAULT_CONFIG_FILE = os.getenv("AVD_COMPOSE_CONFIG_FILE", "avd-compose.yml")
 def main(ctx, debug, config_file):
     ctx.ensure_object(dict)
 
-    ctx.obj["DEBUG"] = debug
-    ctx.obj["CONFIG_FILE"] = config_file
+    ctx.obj["debug"] = debug
+    ctx.obj["configs"] = parse_configuration_file(config_file)
 
 
 @main.command()
