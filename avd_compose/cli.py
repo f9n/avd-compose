@@ -2,6 +2,7 @@ import os
 
 import click
 
+from . import __version__
 from .parser import parse_configuration_file
 
 DEFAULT_CONFIG_FILE = os.getenv("AVD_COMPOSE_CONFIG_FILE", "avd-compose.yml")
@@ -22,7 +23,7 @@ def main(ctx, debug, config_file):
 @click.pass_context
 def version(ctx):
     """ prints the avd-compose, avdmanager, sdkmanager, emulator versions """
-    pass
+    click.echo("avd-compose {version}".format(version=__version__))
 
 
 @main.command()
