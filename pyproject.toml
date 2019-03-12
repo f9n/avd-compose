@@ -9,7 +9,7 @@ homepage = "https://github.com/f9n/avd-compose"
 repository = "https://github.com/f9n/avd-compose"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.4"
 click = "^7.0"
 PyYAML = "^3.13"
 "delegator.py" = "^0.1.1"
