@@ -4,6 +4,7 @@ from ..utils import shell
 class Avd:
     @staticmethod
     def create(name, package, device, force=True):
+        # If this package is not available in the system, you should install the package with 'sdkmanager'.
         command = """avdmanager create avd --name {name} --package "{package}" --device "{device}" --force""".format(
             name=name, package=package, device=device
         )
