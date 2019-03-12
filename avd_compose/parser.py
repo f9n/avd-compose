@@ -1,3 +1,5 @@
+import sys
+
 from .utils import yaml
 
 
@@ -6,5 +8,8 @@ def validate():
 
 
 def parse_configuration_file(config_filepath):
-    content = yaml.load_file(config_filepath)
-    return content
+    try:
+        content = yaml.load_file(config_filepath)
+        return content
+    except Exception as e:
+        sys.exit(e)
