@@ -22,12 +22,11 @@ def get_platform_by_name(platforms, name):
     sys.exit(message)
 
 
-def get_platforms_by_name(platforms, name=None):
-    for platform in platforms:
-        if name and not platform["name"] == name:
-            continue
+def filter_platforms_by_name(platforms, name=None):
+    if name is None:
+        return platforms
 
-        yield platform
+    return get_platform_by_name(platforms, name)
 
 
 @click.group()
@@ -56,7 +55,7 @@ def version(ctx):
 def create(ctx, name):
     """ creates android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
-    for platform in get_platforms_by_name(platforms, name):
+    for platform in filter_platforms_by_name(platforms, name):
         stdout, stderr, rc = Avd.create(
             name=platform["name"],
             package=platform["avd"]["package"],
@@ -99,7 +98,7 @@ def status(ctx):
 def destroy(ctx, name):
     """ deletes all the android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
-    for platform in get_platforms_by_name(platforms, name):
+    for platform in filter_platforms_by_name(platforms, name):
         stdout, stderr, rc = Avd.delete(name=platform["name"])
         if ctx.obj["debug"]:
             click.echo(stdout)
