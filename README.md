@@ -2,6 +2,21 @@
 
 Define and run android virtual devices
 
+# Requirements
+
+- android-studio
+- python3.4+
+- pip3
+
+# Notes
+
+Make sure
+
+- `avdmanager`, `sdkmanager` -> (\$ANDROID_HOME/tools/bin)
+- `emulator` -> (\$ANDROID_HOME/tools)
+
+are in your user's `$PATH` variable.
+
 # Install
 
 ```bash
