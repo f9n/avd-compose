@@ -1,12 +1,25 @@
 import os
+import sys
 
 import click
 
 from . import __version__
 from .parser import parse_configuration_file
 from .androidstudio.avdmanager import Avd
+from .androidstudio.emulator import Emulator
 
 DEFAULT_CONFIG_FILE = os.getenv("AVD_COMPOSE_CONFIG_FILE", "avd-compose.yml")
+
+
+def get_platform_by_name(platforms, name):
+    for platform in platforms:
+        if platform["name"] == name:
+            return platform
+
+    message = "We didn't find this {name} platform name in configuration file".format(
+        name=name
+    )
+    sys.exit(message)
 
 
 def get_platforms_by_name(platforms, name=None):
@@ -44,24 +57,30 @@ def create(ctx, name):
     """ creates android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
     for platform in get_platforms_by_name(platforms, name):
-        output, return_code = Avd.create(
+        output, rc = Avd.create(
             name=platform["name"],
             package=platform["avd"]["package"],
             device=platform["avd"]["device"],
         )
         if ctx.obj["debug"]:
             click.echo(output)
-            click.echo(return_code)
+            click.echo(rc)
 
 
 @main.command()
 @click.pass_context
 @click.option(
-    "-n", "--name", default=None, type=str, help="specific android virtual device name"
+    "-n", "--name", required=True, type=str, help="specific android virtual device name"
 )
 def up(ctx, name):
     """ starts the avd-compose environment """
-    pass
+    platforms = ctx.obj["configs"]["platforms"]
+    platform = get_platform_by_name(platforms, name)
+    stdout, stderr, rc = Emulator.start(name=platform["name"])
+    if ctx.obj["debug"]:
+        click.echo(stdout)
+        click.echo(stderr)
+        click.echo(rc)
 
 
 @main.command()
@@ -80,10 +99,10 @@ def destroy(ctx, name):
     """ deletes all the android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
     for platform in get_platforms_by_name(platforms, name):
-        output, return_code = Avd.delete(name=platform["name"])
+        output, rc = Avd.delete(name=platform["name"])
         if ctx.obj["debug"]:
             click.echo(output)
-            click.echo(return_code)
+            click.echo(rc)
 
 
 if __name__ == "__main__":
