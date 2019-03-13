@@ -2,10 +2,43 @@
 
 Define and run android virtual devices
 
-## Install
+# Install
 
 ```bash
 $ pip3 install --user avd-compose
+```
+
+# Usage
+
+```bash
+$ avd-compose --help
+$ avd-compose version
+$ cat <<EOF >avd-compose.yml
+version: 1
+
+platforms:
+  - name: My_Nexus_5
+    avd:
+      package: "system-images;android-27;google_apis_playstore;x86"
+      device: Nexus 5
+    emulator:
+
+  - name: My_Nexus_One
+    avd:
+      package: "system-images;android-27;google_apis_playstore;x86"
+      device: Nexus One
+    emulator:
+
+EOF
+$ # Create all of them
+$ avd-compose create
+$ # Create one of them
+$ avd-compose create --name My_Nexus_One
+$ # Destroy all of them
+$ avd-compose destroy
+$ # Destroy one of them
+$ avd-compose destroy --name My_Nexus_One
+$ avd-compose up --name My_Nexus_5
 ```
 
 # Examples
