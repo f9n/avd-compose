@@ -1,5 +1,6 @@
 import os
 import sys
+import functools
 
 import click
 
@@ -29,6 +30,16 @@ def filter_platforms_by_name(platforms, name=None):
     return get_platform_by_name(platforms, name)
 
 
+def configuration_file_required(func):
+    @functools.wraps(func)
+    def wrapper_decorator(*args, **kwargs):
+        ctx = args[0]
+        ctx.obj["configs"] = parse_configuration_file(ctx.obj["config_file"])
+        return func(*args, **kwargs)
+
+    return wrapper_decorator
+
+
 @click.group()
 @click.option("--debug/--no-debug", default=False)
 @click.option("-c", "--config-file", default=DEFAULT_CONFIG_FILE)
@@ -37,7 +48,7 @@ def main(ctx, debug, config_file):
     ctx.ensure_object(dict)
 
     ctx.obj["debug"] = debug
-    ctx.obj["configs"] = parse_configuration_file(config_file)
+    ctx.obj["config_file"] = config_file
 
 
 @main.command()
@@ -52,6 +63,7 @@ def version(ctx):
 @click.option(
     "-n", "--name", default=None, type=str, help="specific android virtual device name"
 )
+@configuration_file_required
 def create(ctx, name):
     """ creates android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
@@ -68,6 +80,7 @@ def create(ctx, name):
 @click.option(
     "-n", "--name", required=True, type=str, help="specific android virtual device name"
 )
+@configuration_file_required
 def up(ctx, name):
     """ starts the avd-compose environment """
     platforms = ctx.obj["configs"]["platforms"]
@@ -91,6 +104,7 @@ def status(ctx):
 @click.option(
     "-n", "--name", default=None, type=str, help="specific android virtual device name"
 )
+@configuration_file_required
 def destroy(ctx, name):
     """ deletes all the android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
