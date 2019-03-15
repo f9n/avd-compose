@@ -35,9 +35,6 @@ def validate_configuration_file(configs):
 
 # TODO:: Refactor
 def parse_configuration_file(config_filepath):
-    try:
-        content = yaml.load_file(config_filepath)
-        validate_configuration_file(content)
-        return content
-    except Exception as e:
-        sys.exit(e)
+    content = yaml.load_file(config_filepath)
+    validate_configuration_file(content)
+    return content
