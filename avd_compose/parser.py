@@ -1,36 +1,19 @@
 import sys
 
+from .configs import v1
 from .utils import yaml
-
-
-def check_missing_keys_in_dictionary(dictionary, required_fields):
-    missing_fields = []
-    for required_field in required_fields:
-        if not dictionary.get(required_field):
-            missing_fields.append(required_field)
-
-    return missing_fields
-
 
 # TODO:: Refactor
 def validate_configuration_file(configs):
-    messages = []
-    avd_required_fields = ["package", "device"]
-    for platform in configs["platforms"]:
-        name = platform["name"]
-        # Check avd field
-        missing_fields = check_missing_keys_in_dictionary(
-            platform["avd"], avd_required_fields
-        )
-        if missing_fields:
-            messages.append(
-                "Missing fields in avd section of '{name}' platform:\n{fields}".format(
-                    name=name, fields=", ".join(missing_fields)
-                )
+    config_version = configs["version"]
+    if config_version == 1:
+        return v1.validate(configs=configs)
+    else:
+        sys.exit(
+            "We dont support this {config_version} version".format(
+                config_version=config_version
             )
-
-    if messages:
-        sys.exit("\n".join(messages))
+        )
 
 
 # TODO:: Refactor
