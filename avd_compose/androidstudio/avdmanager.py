@@ -1,4 +1,6 @@
-from ..utils import shell
+import sys
+
+from ..utils import shell, formatter
 
 
 class Avdmanager:
@@ -9,13 +11,11 @@ class Avdmanager:
 
 class Avd:
     @staticmethod
-    def create(name, package, device, force=True):
+    def create(name, **kwargs):
         # If this package is not available in the system, you should install the package with 'sdkmanager'.
-        command = """{full_path_of_tool} create avd --name "{name}" --package "{package}" --device "{device}" --force""".format(
-            full_path_of_tool=Avdmanager.full_path(),
-            name=name,
-            package=package,
-            device=device,
+        options_string = formatter.options_as_a_string(kwargs)
+        command = """{full_path_of_tool} create avd --name "{name}" {options}""".format(
+            full_path_of_tool=Avdmanager.full_path(), name=name, options=options_string
         )
         return shell.run_command(command)
 

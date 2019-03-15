@@ -56,11 +56,7 @@ def create(ctx, name):
     """ creates android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
     for platform in filter_platforms_by_name(platforms, name):
-        stdout, stderr, rc = Avd.create(
-            name=platform["name"],
-            package=platform["avd"]["package"],
-            device=platform["avd"]["device"],
-        )
+        stdout, stderr, rc = Avd.create(name=platform["name"], **platform["avd"])
         if ctx.obj["debug"]:
             click.echo(stdout)
             click.echo(stderr)
@@ -76,7 +72,7 @@ def up(ctx, name):
     """ starts the avd-compose environment """
     platforms = ctx.obj["configs"]["platforms"]
     platform = get_platform_by_name(platforms, name)
-    stdout, stderr, rc = Emulator.start(name=platform["name"])
+    stdout, stderr, rc = Emulator.start(name=platform["name"], **platform["emulator"])
     if ctx.obj["debug"]:
         click.echo(stdout)
         click.echo(stderr)
