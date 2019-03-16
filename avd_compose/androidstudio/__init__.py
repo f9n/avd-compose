@@ -12,7 +12,7 @@ class AndroidHome:
     def check():
         path = AndroidHome.get()
         if path is None:
-            sys.exit("The 'AndroidHome' environment variable is not defined.")
+            sys.exit("The 'ANDROID_HOME' environment variable is not defined.")
 
     @staticmethod
     def required(func):
@@ -34,4 +34,3 @@ class Tools:
     @staticmethod
     def get_full_path(name):
         return os.path.join(AndroidHome.get(), Tools.defaults[name])
-
