@@ -1,14 +1,13 @@
 from ..utils import shell
+from . import Tools
 
 
-class Sdk:
-    @staticmethod
-    def __full_path():
-        return shell.get_full_path("sdkmanager").strip()
+def full_path():
+    return Tools.get_full_path("sdkmanager")
 
-    @staticmethod
-    def install(package):
-        command = """{full_path_of_tool} --install "{package}" """.format(
-            full_path_of_tool=Sdk.__full_path(), package=package
-        )
-        return shell.run_command(command)
+
+def install(package):
+    command = """{full_path_of_tool} --install "{package}" """.format(
+        full_path_of_tool=full_path(), package=package
+    )
+    return shell.run_command(command)

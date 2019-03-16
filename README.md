@@ -10,12 +10,7 @@ Define and run android virtual devices
 
 # Notes
 
-Make sure
-
-- `avdmanager`, `sdkmanager` -> (\$ANDROID_HOME/tools/bin)
-- `emulator` -> (\$ANDROID_HOME/tools)
-
-are in your user's `$PATH` variable.
+Make sure that the `AndroidHome` environment variable is set.
 
 # Install
 

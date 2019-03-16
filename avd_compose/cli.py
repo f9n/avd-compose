@@ -7,7 +7,8 @@ import click
 from . import __version__
 from .parser import parse_configuration_file
 from .androidstudio.avdmanager import Avd
-from .androidstudio.emulator import Emulator
+from .androidstudio import emulator
+from .androidstudio import AndroidHome
 
 DEFAULT_CONFIG_FILE = os.getenv("AVD_COMPOSE_CONFIG_FILE", "avd-compose.yml")
 
@@ -64,6 +65,7 @@ def version(ctx):
     "-n", "--name", default=None, type=str, help="specific android virtual device name"
 )
 @configuration_file_required
+@AndroidHome.required
 def create(ctx, name):
     """ creates android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
@@ -81,11 +83,12 @@ def create(ctx, name):
     "-n", "--name", required=True, type=str, help="specific android virtual device name"
 )
 @configuration_file_required
+@AndroidHome.required
 def up(ctx, name):
     """ starts the avd-compose environment """
     platforms = ctx.obj["configs"]["platforms"]
     platform = get_platform_by_name(platforms, name)
-    stdout, stderr, rc = Emulator.start(name=platform["name"], **platform["emulator"])
+    stdout, stderr, rc = emulator.start(name=platform["name"], **platform["emulator"])
     if ctx.obj["debug"]:
         click.echo(stdout)
         click.echo(stderr)
@@ -105,6 +108,7 @@ def status(ctx):
     "-n", "--name", default=None, type=str, help="specific android virtual device name"
 )
 @configuration_file_required
+@AndroidHome.required
 def destroy(ctx, name):
     """ deletes all the android virtual devices """
     platforms = ctx.obj["configs"]["platforms"]
