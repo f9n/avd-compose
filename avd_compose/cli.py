@@ -88,7 +88,8 @@ def up(ctx, name):
     """ starts the avd-compose environment """
     platforms = ctx.obj["configs"]["platforms"]
     platform = get_platform_by_name(platforms, name)
-    stdout, stderr, rc = emulator.start(name=platform["name"], **platform["emulator"])
+    platform_emulator = platform["emulator"] or {}
+    stdout, stderr, rc = emulator.start(name=platform["name"], **platform_emulator)
     if ctx.obj["debug"]:
         click.echo(stdout)
         click.echo(stderr)
