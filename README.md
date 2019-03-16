@@ -10,7 +10,7 @@ Define and run android virtual devices
 
 # Notes
 
-Make sure that the `AndroidHome` environment variable is set.
+Make sure that the `ANDROID_HOME` environment variable is set.
 
 # Install
 
