@@ -26,9 +26,9 @@ class AndroidHome:
 
 class Tools:
     defaults = {
-        "avdmanager": "Sdk/tools/bin/avdmanager",
-        "sdkmanager": "Sdk/tools/bin/sdkmanager",
-        "emulator": "Sdk/tools/emulator",
+        "avdmanager": "tools/bin/avdmanager",
+        "sdkmanager": "tools/bin/sdkmanager",
+        "emulator": "tools/emulator",
     }
 
     @staticmethod

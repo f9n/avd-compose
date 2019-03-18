@@ -12,6 +12,14 @@ Define and run android virtual devices
 
 Make sure that the `ANDROID_HOME` environment variable is set.
 
+```bash
+$ echo $ANDROID_HOME
+
+$ export ANDROID_HOME=$HOME/Android/Sdk
+$ echo $ANDROID_HOME
+/home/f9n/Android/Sdk
+```
+
 # Install
 
 ```bash
