@@ -98,9 +98,12 @@ def up(ctx, name):
 
 @main.command()
 @click.pass_context
+@configuration_file_required
 def status(ctx):
     """ status of the android virtual devices in the configuration file """
-    pass
+    platforms = ctx.obj["configs"]["platforms"]
+    for platform in platforms:
+        click.echo(platform["name"])
 
 
 @main.command()
