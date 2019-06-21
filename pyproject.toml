@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "avd-compose"
-version = "0.5.4"
+version = "0.5.5"
 description = "Define and run android virtual devices"
 license = "GPL-3.0"
 authors = ["Fatih Sarhan <f9n@protonmail.com>"]
