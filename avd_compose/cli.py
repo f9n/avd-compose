@@ -28,7 +28,7 @@ def filter_platforms_by_name(platforms, name=None):
     if name is None:
         return platforms
 
-    return get_platform_by_name(platforms, name)
+    return [get_platform_by_name(platforms, name)]
 
 
 def configuration_file_required(func):
